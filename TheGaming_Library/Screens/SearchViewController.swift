@@ -10,10 +10,10 @@ import UIKit
 class SearchViewController: UIViewController {
     
     let logoImageView       = UIImageView()
-    let usernameTextField   = TGLTextField()
+    let gameTitleTextField   = TGLTextField()
     let callToActionButton  = TGLButton(backgroundColor: .systemPink, title: "Get Games")
     
-    var isUsernameEntered: Bool { return !usernameTextField.text!.isEmpty }
+//    var isUsernameEntered: Bool { return !usernameTextField.text!.isEmpty }
 
     
     override func viewDidLoad() {
@@ -39,14 +39,10 @@ class SearchViewController: UIViewController {
     
     
     @objc func pushGamesListViewController() {
-        guard isUsernameEntered else {
-            presentTGLAlertOnMainThread(title: "Empty Username", message: "Please enter a username. We need to know who to look for 😀.", buttonTitle: "Ok")
-            return
-        }
-        
+
         let gamesListVC      = GamesListViewController()
-        gamesListVC.username = usernameTextField.text
-        gamesListVC.title    = usernameTextField.text
+        gamesListVC.game = gameTitleTextField.text ?? " "
+        gamesListVC.title    = gameTitleTextField.text
         navigationController?.pushViewController(gamesListVC, animated: true)
         
     }
@@ -68,14 +64,14 @@ class SearchViewController: UIViewController {
     
     
     func configureTextField() {
-        view.addSubview(usernameTextField)
-        usernameTextField.delegate = self
+        view.addSubview(gameTitleTextField)
+        gameTitleTextField.delegate = self
         
         NSLayoutConstraint.activate([
-            usernameTextField.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 48),
-            usernameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
-            usernameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
-            usernameTextField.heightAnchor.constraint(equalToConstant: 50)
+            gameTitleTextField.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 48),
+            gameTitleTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            gameTitleTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            gameTitleTextField.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     

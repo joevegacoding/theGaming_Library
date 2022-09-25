@@ -33,7 +33,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return UINavigationController(rootViewController: homeViewController)
     }
     func createSearchNavigationController() -> UINavigationController {
-        let searchViewController = SearchViewController()
+        let searchViewController = GamesListViewController()
         searchViewController.title = "Search"
         searchViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 1)
         

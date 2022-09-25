@@ -12,7 +12,7 @@ class GamesListViewController: UIViewController {
     
     enum Section { case main }
     
-    var username: String!
+    var game: String = ""
     var games: [Results] = []
     var filteredGames: [Results] = []
     var page = 2
@@ -26,7 +26,7 @@ class GamesListViewController: UIViewController {
         super.viewDidLoad()
         configureViewController()
         configureCollectionView()
-        getGames(game: username, page: page)
+        getGames(game: game, page: page)
         configureDataSource()
         configureSearchController()
     }
@@ -67,30 +67,32 @@ class GamesListViewController: UIViewController {
     
     func getGames(game: String, page: Int) {
         showLoadingView()
-        NetworkManager.shared.getGames(for: username, page: page) { [weak self] result in
-           
+        NetworkManager.shared.getGames(for: game, page: page) { [weak self] result in
+
             guard let self = self else { return }
             self.dismissLoadingView()
             switch result {
             case .success(let games):
                 if games.results.count < 20 { self.hasMoreGames = false }
                 self.games.append(contentsOf: games.results)
-                
+
 //                if self.games.isEmpty {
 //                    let message = "No game found...☹️👾"
 //                    DispatchQueue.main.async {
 //                        self.showEmptyStateView(with: message, in: self.view)
 //                        return
 //                    }
-//                    
+//
 //                }
                 self.updateData(on: self.games)
-                
+
             case .failure(let error):
                 self.presentTGLAlertOnMainThread(title: "Bad Stuff Happend", message: error.rawValue, buttonTitle: "Ok")
             }
         }
     }
+    
+
     
     
     func configureDataSource() {
@@ -124,7 +126,7 @@ extension GamesListViewController: UICollectionViewDelegate {
         
         if offsetY > contentHeight - height {
             page += 1
-            getGames(game: username, page: page)
+            getGames(game: game, page: page)
 
         }
     }
